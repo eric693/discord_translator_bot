@@ -84,9 +84,6 @@ async def on_message(message):
         print(f"自動翻譯錯誤: {e}")
         import traceback
         traceback.print_exc()
-    
-    # 繼續處理其他指令
-    await bot.process_commands(message)
 
 def detect_language(text):
     """檢測文字語言"""
