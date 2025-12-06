@@ -250,6 +250,7 @@ async def auto_toggle(ctx):
     )
     
     await ctx.send(embed=embed)
+
 @bot.command(name='help_translate', aliases=['翻譯幫助'])
 async def help_translate(ctx):
     """顯示翻譯機器人的幫助訊息"""
@@ -317,34 +318,28 @@ async def on_command_error(ctx, error):
 # 運行機器人
 if __name__ == "__main__":
     print("🤖 Discord 翻譯機器人啟動中...")
-    print("請確保已安裝所需套件：pip install discord.py googletrans==4.0.0rc1")
+    print("請確保已設置環境變數 DISCORD_BOT_TOKEN")
     
-    # 從環境變數或用戶輸入獲取TOKEN
-    import os
+    # 從環境變數獲取 TOKEN
     TOKEN = os.getenv('DISCORD_BOT_TOKEN')
     
     if not TOKEN:
-        print("\n🔑 請輸入你的Discord機器人TOKEN：")
-        TOKEN = input("TOKEN: ").strip()
+        print("❌ 錯誤：未找到 DISCORD_BOT_TOKEN 環境變數！")
+        print("\n📝 請在 Railway 中設置環境變數：")
+        print("1. 進入你的服務 (Service)")
+        print("2. 點擊 'Variables' 標籤")
+        print("3. 添加變數名稱: DISCORD_BOT_TOKEN")
+        print("4. 添加你的 Discord Bot Token 作為值")
+        exit(1)
     
-    if not TOKEN or TOKEN == "YOUR_BOT_TOKEN_HERE":
-        print("❌ 錯誤：未提供有效的TOKEN！")
-        print("\n📝 如何獲取TOKEN：")
-        print("1. 前往 https://discord.com/developers/applications")
-        print("2. 選擇你的應用程式")
-        print("3. 點擊左側 'Bot' 選項")
-        print("4. 點擊 'Reset Token' 按鈕")
-        print("5. 複製顯示的TOKEN")
-        print("\n💡 提示：你也可以設置環境變數 DISCORD_BOT_TOKEN")
-    else:
-        try:
-            print("🚀 正在連接到Discord...")
-            bot.run(TOKEN)
-        except discord.LoginFailure:
-            print("❌ TOKEN無效！請檢查你的TOKEN是否正確。")
-        except Exception as e:
-            print(f"❌ 機器人啟動失敗: {e}")
-            print("💡 常見問題：")
-            print("- 檢查網路連接")
-            print("- 確認TOKEN正確")
-            print("- 確保已安裝所需套件")
+    try:
+        print("🚀 正在連接到 Discord...")
+        bot.run(TOKEN)
+    except discord.LoginFailure:
+        print("❌ TOKEN 無效！請檢查你的 TOKEN 是否正確。")
+    except Exception as e:
+        print(f"❌ 機器人啟動失敗: {e}")
+        print("💡 常見問題：")
+        print("- 檢查網路連接")
+        print("- 確認 TOKEN 正確")
+        print("- 確保已安裝所需套件")
